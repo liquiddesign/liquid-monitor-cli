@@ -31,5 +31,5 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "bin": ["builds/liquid-monitor-cli"],
-    "version": "1.0.2"
+    "version": "0.0.2"
 }
