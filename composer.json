@@ -1,5 +1,5 @@
 {
-    "name": "liquiddesign/liquid-design-cli",
+    "name": "liquiddesign/liquid-monitor-cli",
     "license": "MIT",
     "require-dev": {
         "php": "^8.2.0",
