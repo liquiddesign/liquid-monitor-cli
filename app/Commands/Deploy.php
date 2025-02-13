@@ -3,6 +3,7 @@
 namespace App\Commands;
 
 use Illuminate\Console\Scheduling\Schedule;
+use Illuminate\Support\Facades\Http;
 use LaravelZero\Framework\Commands\Command;
 
 class Deploy extends Command
@@ -38,7 +39,10 @@ class Deploy extends Command
             case 0:
                 $this->task('Deploying all', function () {
                     $resultCode = null;
-                    $result = \passthru(\env('DEPLOY_ALL_SCRIPT'), $resultCode);
+                    \ob_start();
+                    \passthru(env('DEPLOY_ALL_SCRIPT'), $resultCode);
+                    $result = \ob_get_contents();
+                    \ob_end_clean();
 
                     dump($result);
 
@@ -48,10 +52,12 @@ class Deploy extends Command
                 break;
             case 1:
                 $this->task('Deploying frontend', function () {
-                    $resultCode = null;
-                    $result = \passthru(\env('DEPLOY_FRONT_SCRIPT'), $resultCode);
+//                    $resultCode = null;
+//                    $result = \passthru(\env('DEPLOY_FRONT_SCRIPT'), $resultCode);
 
-                    dump($result);
+                    $response = Http::post(env('API_HOST') . '/deploy/is-deploy', [
+                        'apiKey' => env('API_KEY'),
+                    ]);
 
                     return $resultCode === 0;
                 });
