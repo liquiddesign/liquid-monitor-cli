@@ -7,7 +7,8 @@
         "nunomaduro/laravel-console-menu": "^3.5",
         "laravel/pint": "^1.18.3",
         "mockery/mockery": "^1.6.12",
-        "pestphp/pest": "^3.7.1"
+        "pestphp/pest": "^3.7.1",
+        "illuminate/http": "^11.5"
     },
     "autoload": {
         "psr-4": {
@@ -29,8 +30,5 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "bin": ["builds/liquid-monitor-cli"],
-    "require": {
-        "illuminate/http": "^11.5"
-    }
+    "bin": ["builds/liquid-monitor-cli"]
 }
