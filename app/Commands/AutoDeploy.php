@@ -46,6 +46,19 @@ class AutoDeploy extends Command
         if ($response->status() !== 200) {
             Log::error('Deploy failed to start:' . $response);
         }
+
+        $resultCode = null;
+        \ob_start();
+        \passthru(env('DEPLOY_BACK_SCRIPT'), $resultCode);
+        $result = \ob_get_contents();
+        \ob_end_clean();
+
+        Http::acceptJson()->post(env('API_HOST') . '/deploy/deploy-done', [
+            'apiKey' => env('API_KEY'),
+            'deployId' => $deploy['data']['id'],
+            'resultCode' => $resultCode,
+            'result' => $result,
+        ]);
     }
 
     /**
