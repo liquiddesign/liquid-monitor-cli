@@ -1,14 +1,17 @@
 {
     "name": "liquiddesign/liquid-monitor-cli",
     "license": "MIT",
-    "require-dev": {
-        "php": "^8.2.0",
+    "require": {
+        "php": "^8.3.0",
+        "illuminate/log": "^11.5",
         "laravel-zero/framework": "^11.36.1",
         "nunomaduro/laravel-console-menu": "^3.5",
+        "illuminate/http": "^11.5"
+    },
+    "require-dev": {
         "laravel/pint": "^1.18.3",
         "mockery/mockery": "^1.6.12",
-        "pestphp/pest": "^3.7.1",
-        "illuminate/http": "^11.5"
+        "pestphp/pest": "^3.7.1"
     },
     "autoload": {
         "psr-4": {
@@ -30,8 +33,6 @@
     },
     "minimum-stability": "stable",
     "prefer-stable": true,
-    "bin": ["builds/liquid-monitor-cli"],
-    "require": {
-        "illuminate/log": "^11.5"
-    }
+    "bin": ["builds/liquid-monitor-cli"]
+
 }
