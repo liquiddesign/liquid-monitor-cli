@@ -53,7 +53,7 @@ class AutoDeploy extends Command
 
             $resultCode = null;
             \ob_start();
-            \passthru(env('DEPLOY_BACK_SCRIPT'), $resultCode);
+            \passthru(env('DEPLOY_AUTO_SCRIPT'), $resultCode);
             $result = \ob_get_contents();
             \ob_end_clean();
 

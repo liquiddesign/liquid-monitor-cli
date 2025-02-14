@@ -32,7 +32,5 @@
         }
     },
     "minimum-stability": "stable",
-    "prefer-stable": true,
-    "bin": ["builds/liquid-monitor-cli"]
-
+    "prefer-stable": true
 }
