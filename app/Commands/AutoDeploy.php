@@ -32,11 +32,14 @@ class AutoDeploy extends Command
             'apiKey' => env('API_KEY'),
         ]);
 
+        Log::debug($response->status());
+
         if ($response->status() !== 200) {
             return;
         }
 
         $deploy = $response->json();
+        Log::debug($deploy);
 
         $response = Http::acceptJson()->post(env('API_HOST') . '/deploy/start-deploy', [
             'apiKey' => env('API_KEY'),
@@ -53,12 +56,15 @@ class AutoDeploy extends Command
         $result = \ob_get_contents();
         \ob_end_clean();
 
-        Http::acceptJson()->post(env('API_HOST') . '/deploy/deploy-done', [
+        $response = Http::acceptJson()->post(env('API_HOST') . '/deploy/deploy-done', [
             'apiKey' => env('API_KEY'),
             'deployId' => $deploy['data']['id'],
             'resultCode' => $resultCode,
             'result' => $result,
         ]);
+
+        Log::debug($response->status());
+        Log::debug($response->json());
     }
 
     /**
