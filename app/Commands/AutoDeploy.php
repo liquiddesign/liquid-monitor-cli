@@ -28,43 +28,45 @@ class AutoDeploy extends Command
      */
     public function handle()
     {
-        $response = Http::post(env('API_HOST') . '/deploy/is-deploy', [
-            'apiKey' => env('API_KEY'),
-        ]);
+        $this->task('Auto deploy', function () {
+            $response = Http::post(env('API_HOST') . '/deploy/is-deploy', [
+                'apiKey' => env('API_KEY'),
+            ]);
 
-        Log::debug($response->status());
+            Log::debug($response->status());
 
-        if ($response->status() !== 200) {
-            return;
-        }
+            if ($response->status() !== 200) {
+                return;
+            }
 
-        $deploy = $response->json();
-        Log::debug($deploy);
+            $deploy = $response->json();
+            Log::debug($deploy);
 
-        $response = Http::acceptJson()->post(env('API_HOST') . '/deploy/start-deploy', [
-            'apiKey' => env('API_KEY'),
-            'deployId' => $deploy['data']['id'],
-        ]);
+            $response = Http::acceptJson()->post(env('API_HOST') . '/deploy/start-deploy', [
+                'apiKey' => env('API_KEY'),
+                'deployId' => $deploy['data']['id'],
+            ]);
 
-        if ($response->status() !== 200) {
-            Log::error('Deploy failed to start:' . $response);
-        }
+            if ($response->status() !== 200) {
+                Log::error('Deploy failed to start:' . $response);
+            }
 
-        $resultCode = null;
-        \ob_start();
-        \passthru(env('DEPLOY_BACK_SCRIPT'), $resultCode);
-        $result = \ob_get_contents();
-        \ob_end_clean();
+            $resultCode = null;
+            \ob_start();
+            \passthru(env('DEPLOY_BACK_SCRIPT'), $resultCode);
+            $result = \ob_get_contents();
+            \ob_end_clean();
 
-        $response = Http::acceptJson()->post(env('API_HOST') . '/deploy/deploy-done', [
-            'apiKey' => env('API_KEY'),
-            'deployId' => $deploy['data']['id'],
-            'resultCode' => $resultCode,
-            'result' => $result,
-        ]);
+            $response = Http::acceptJson()->post(env('API_HOST') . '/deploy/deploy-done', [
+                'apiKey' => env('API_KEY'),
+                'deployId' => $deploy['data']['id'],
+                'resultCode' => $resultCode,
+                'result' => $result,
+            ]);
 
-        Log::debug($response->status());
-        Log::debug($response->json());
+            Log::debug($response->status());
+            Log::debug($response->json());
+        });
     }
 
     /**
