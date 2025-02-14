@@ -21,7 +21,7 @@ class AutoDeploy extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Auto deploy';
 
     /**
      * Execute the console command.
